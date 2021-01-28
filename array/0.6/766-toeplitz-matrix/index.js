@@ -31,13 +31,31 @@ Follow up:
  * @param {number[][]} matrix
  * @return {boolean}
  */
+// Solution 1: Compare with bottom-right neighbor
+// Time complexity: O(M * N)
+// Space complexity: O(1)
+// const isToeplitzMatrix = function(matrix) {
+//   for (let i = 0; i < matrix.length - 1; ++i) {
+//     for (let j = 0; j < matrix[0].length - 1; ++j) {
+//       if (matrix[i][j] !== matrix[i + 1][j + 1]) return false;
+//     }
+//   }
+//   return true;
+// };
+// Solution 2: Hash table - Group by category
+// Time complexity: O(M * N)
+// Space complexity: O(M + N)
 const isToeplitzMatrix = function(matrix) {
-  for (let i = 0; i < matrix.length - 1; ++i) {
-    for (let j = 0; j < matrix[0].length - 1; ++j) {
-      if (matrix[i][j] !== matrix[i + 1][j + 1]) return false;
+  const map = new Map();
+  for (let r = 0; r < matrix.length; ++r) {
+    for (let c = 0; c < matrix[0].length; ++c) {
+      if (!map.has(r - c)) map.set(r - c, matrix[r][c]);
+      else if (map.get(r - c) !== matrix[r][c]) return false;
     }
   }
   return true;
 };
 
-console.log(isToeplitzMatrix([[1, 2, 3, 4], [5, 1, 2, 3], [9, 5, 1, 2]]));
+// console.log(isToeplitzMatrix([[1, 2, 3, 4], [5, 1, 2, 3], [9, 5, 1, 2]]));
+// console.log(isToeplitzMatrix([[18], [66]]));
+console.log(isToeplitzMatrix([[0, 33, 98], [34, 22, 33]]));
